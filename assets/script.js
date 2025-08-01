@@ -17,40 +17,52 @@ const slides = [
 	}
 ]
 
-// ajoit d'un eventlistener sur les fléches
 
-let arrowleft = document.querySelector(".arrow_left");
+// récupération des élémenets du DOM
+const arrowleft = document.querySelector(".arrow_left");
+const arrowright = document.querySelector(".arrow_right");
+const bannerimg = document.querySelector(".banner-img");
+const text = document.querySelector("#banner p");
+const dots = document.querySelector(".dots");
+
+let dotlist;
+let currentslide = 0
+
+// ajout d'un eventlistener sur les fléches
 arrowleft.addEventListener("click", () => {
 	currentslide--;
 	updatecarousel();
 	console.log("vous avez cliquer sur la fléche gauche");
 });
 
-
-let arrowright = document.querySelector(".arrow_right");
 arrowright.addEventListener("click", () => {
 	currentslide++;
 	updatecarousel();
 	console.log("vous avez cliquer sur la fléche droite");
 })
 
-// récupération des élémenets du DOM
-let bannerimg = document.querySelector(".banner-img");
-let text = document.querySelector("#banner p");
-let dotlist = document.querySelectorAll(".dot");
+// génération des points
+for( j=0; j< slides.length; j++){
+	const dot = document.createElement("div");
+	dot.classList.add("dot");
+	if (j===0) dot.classList.add("dot_selected");
+	dots.appendChild(dot);
+}
 
-let currentslide = 0
+
 
 function updatecarousel() {
 	// défilement infini sur le carousel
 	if (currentslide < 0) {
 		currentslide = slides.length - 1;
-	} else if (currentslide >= 4) {
+	} else if (currentslide >= slides.length ) {
 		currentslide = 0;
 	}
 	bannerimg.src = `./assets/images/slideshow/${slides[currentslide].image}`; // changer l'image
 	text.innerHTML = slides[currentslide].tagLine; //changer le texte
 
+	dotlist= document.querySelectorAll(".dot");
+	
 	// changer le point actif	
 	for (let i = 0; i < dotlist.length; i++) {
 		dotlist[i].classList.remove("dot_selected");
@@ -58,7 +70,6 @@ function updatecarousel() {
 	dotlist[currentslide].classList.add("dot_selected");
 
 }
-
 
 
 
